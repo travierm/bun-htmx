@@ -1,5 +1,7 @@
 import { Serve } from "bun";
+import { renderToString } from "react-dom/server";
 
+import { Navbar } from "./src/pages/Navbar";
 import { router } from "./src/router";
 
 const ENV_PORT = 4000;
@@ -17,7 +19,12 @@ export default {
     const url = new URL(req.url);
 
     if (url.pathname === "/") {
-      return new Response(Bun.file("./public.html"));
+      const publicHtml = await Bun.file("./public.html").text();
+      const component = await renderToString(<Navbar />);
+
+      return new Response(publicHtml.replace("@content", component), {
+        headers: { "Content-Type": "text/html" },
+      });
     }
 
     return await router.run(url.pathname);

@@ -1,3 +1,5 @@
+import { Layout } from "../components/Layout";
+
 type User = {
   name: string;
 };
@@ -16,10 +18,12 @@ export function UserList(props: {}) {
   ];
 
   return (
-    <ul>
-      {users.map((user) => {
-        return <li>{user.name}</li>;
-      })}
-    </ul>
+    <Layout>
+      <ul>
+        {users.map((user) => {
+          return <li>{user.name}</li>;
+        })}
+      </ul>
+    </Layout>
   );
 }

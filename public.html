@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Bun Server</title>
 
+    <script
+      src="https://unpkg.com/htmx.org@1.9.4"
+      integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <main>
-        <button hx-get="/about"
-            hx-trigger="click"
-            hx-target="#content"
-            hx-swap="innerHTML"
-        >
-            About Page
-        </button>
-
-        <button hx-get="/users"
-            hx-trigger="click"
-            hx-target="#content"
-            hx-swap="innerHTML"
-        >
-            Welcome Page
-        </button>
-
-        <div id="content">
-
-        </div>
-    </main>
-
-    <script src="https://unpkg.com/htmx.org@1.9.4" integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV" crossorigin="anonymous"></script>
+    @content
   </body>
 </html>
