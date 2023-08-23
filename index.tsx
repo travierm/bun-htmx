@@ -27,6 +27,6 @@ export default {
       });
     }
 
-    return await router.run(url.pathname);
+    return await router.run(url.pathname, req);
   },
 } satisfies Serve;

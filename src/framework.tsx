@@ -1,7 +1,24 @@
-import { renderToReadableStream } from "react-dom/server";
+import { request } from "http";
+import React from "react";
+import { renderToReadableStream, renderToString } from "react-dom/server";
 
-export async function renderComponent(component) {
-  const stream = await renderToReadableStream(component);
+export async function renderComponent(component, request: Request) {
+  if (!request.headers.get("Hx-Boosted")) {
+    console.log("not boosted");
+
+    const publicHtml = await Bun.file("./public.html").text();
+    const resp = await renderToString(component);
+
+    return new Response(publicHtml.replace("@content", resp), {
+      headers: { "Content-Type": "text/html" },
+    });
+  }
+
+  const mergedElement = React.cloneElement(component, {
+    request,
+  });
+
+  const stream = await renderToReadableStream(mergedElement);
 
   return new Response(stream, {
     headers: { "Content-Type": "text/html" },
@@ -9,20 +26,19 @@ export async function renderComponent(component) {
 }
 
 export class Router {
-  routes: { [key: string]: () => Promise<Response> } = {};
+  routes: { [key: string]: (req: Request) => Promise<Response> } = {};
 
   routeToComponent(path: string, component: any) {
-    this.routes[path] = () => {
-      return renderComponent(component);
+    this.routes[path] = (req: Request) => {
+      return renderComponent(component, req);
     };
   }
 
-  run(path: string): Promise<Response> {
+  run(path: string, request: Request): Promise<Response> {
     const route = this.routes[path];
 
     if (route) {
-      console.log("did this");
-      return route();
+      return route(request);
     }
 
     return new Response("Route not found");
