@@ -27,6 +27,12 @@ export default {
       });
     }
 
+    if (url.pathname === "/dist/output.css") {
+      return new Response(await Bun.file("./dist/output.css"), {
+        headers: { "Content-Type": "text/css" },
+      });
+    }
+
     return await router.run(url.pathname, req);
   },
 } satisfies Serve;
