@@ -4,19 +4,15 @@ type User = {
   name: string;
 };
 
-export function UserList(props: {}) {
-  const users: User[] = [
-    {
-      name: "John",
-    },
-    {
-      name: "Jim",
-    },
-    {
-      name: "Scott",
-    },
-  ];
+const users: User[] = [];
 
+for (var i = 0; i <= 10000; i++) {
+  users.push({
+    name: (Math.random() + 1).toString(36).substring(7),
+  });
+}
+
+export function UserList(props: {}) {
   return (
     <Layout>
       <ul>
