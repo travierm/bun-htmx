@@ -28,7 +28,7 @@ export async function renderComponent(
 export class Router {
   routes: { [key: string]: (req: Request) => Promise<Response> } = {};
 
-  routeToComponent(path: string, component: any) {
+  routeToComponent(path: string, component: React.ReactElement) {
     this.routes[path] = (req: Request) => {
       return renderComponent(component, req);
     };
