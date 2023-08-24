@@ -1,13 +1,13 @@
-import { request } from "http";
 import React from "react";
 import { renderToReadableStream, renderToString } from "react-dom/server";
 
-export async function renderComponent(component, request: Request) {
+export async function renderComponent(
+  component: React.ReactElement,
+  request: Request
+) {
   if (!request.headers.get("Hx-Boosted")) {
-    console.log("not boosted");
-
     const publicHtml = await Bun.file("./public.html").text();
-    const resp = await renderToString(component);
+    const resp = renderToString(component);
 
     return new Response(publicHtml.replace("@content", resp), {
       headers: { "Content-Type": "text/html" },
@@ -41,6 +41,6 @@ export class Router {
       return route(request);
     }
 
-    return new Response("Route not found");
+    return Promise.resolve(new Response("Route not found"));
   }
 }
