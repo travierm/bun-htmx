@@ -3,10 +3,10 @@
   "module": "index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"bun run --watch src/server.tsx\" \"bun run tailwind:dev\"",
+    "dev": "concurrently \"bun run --hot src/server.tsx\" \"bun run tailwind:dev\"",
     "dev-inspect": "concurrently \"bun run --inspect --watch src/server.tsx\" \"bun run tailwind:dev\"",
     "tailwind": "bunx tailwindcss -i ./src/base.css -o ./dist/output.css",
-    "tailwind:dev": "bunx tailwindcss -i ./src/base.css -o ./dist/base.css --watch"
+    "tailwind:dev": "bunx tailwindcss -i ./src/base.css -o ./dist/output.css --watch"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",
