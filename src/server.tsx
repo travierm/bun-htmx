@@ -1,9 +1,9 @@
-import { Serve } from 'bun';
-import * as React from 'react';
-import { renderToString } from 'react-dom/server';
+import { Serve } from "bun";
+import * as React from "react";
+import { renderToString } from "react-dom/server";
 
-import { Navbar } from './pages/Navbar';
-import { router } from './router';
+import { Navbar } from "./pages/Navbar";
+import { router } from "./router";
 
 const ENV_PORT = 4000;
 const ENV_HOSTNAME = "localhost";
@@ -18,9 +18,8 @@ export default {
   port: ENV_PORT,
   hostname: ENV_HOSTNAME,
   development: ENV_DEV,
-  async fetch(req) {
+  async fetch(req: Request) {
     const url = new URL(req.url);
-
 
     if (url.pathname === "/") {
       const publicHtml = await Bun.file("./public.html").text();

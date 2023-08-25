@@ -24,6 +24,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.{tsx}"],
   "exclude": ["node_modules"]
 }
