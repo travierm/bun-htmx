@@ -1,4 +1,6 @@
-import { Layout } from "../components/Layout";
+import * as React from 'react';
+
+import { Layout } from '../components/Layout';
 
 type User = {
   name: string;
@@ -6,7 +8,7 @@ type User = {
 
 const users: User[] = [];
 
-for (var i = 0; i <= 10000; i++) {
+for (var i = 0; i <= 100000; i++) {
   users.push({
     name: (Math.random() + 1).toString(36).substring(7),
   });

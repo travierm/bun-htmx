@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     // add Bun type definitions
-    "types": ["bun-types"],
+    "types": ["bun-types", "@types/web"],
 
     // enable latest features
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "module": "esnext",
     "target": "esnext",
 
@@ -15,8 +15,7 @@
     "composite": true,
     "moduleDetection": "force",
 
-    "jsx": "react", // support JSX
-    "jsxFactory": "elements.createElement",
+    "jsx": "react-jsx", // support JSX
     "allowJs": true, // allow importing `.js` from `.ts`
     "esModuleInterop": true, // allow default imports for CommonJS modules
 
@@ -24,5 +23,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*.{tsx}"],
+  "exclude": ["node_modules"]
 }

@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export function Navbar() {
   return (
     <nav hx-boost="true" className="bg-blue-700 flex p-2 text-white text-xl">

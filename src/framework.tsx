@@ -1,5 +1,5 @@
-import React from "react";
-import { renderToReadableStream, renderToString } from "react-dom/server";
+import * as React from 'react';
+import { renderToReadableStream, renderToString } from 'react-dom/server';
 
 export async function renderComponent(
   component: React.ReactElement,
