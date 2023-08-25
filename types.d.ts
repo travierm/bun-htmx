@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 declare global {
   namespace JSX {
@@ -10,5 +10,7 @@ declare global {
     }
   }
 
-  let elements: string;
+  type RequestHandler = (req: Request) => Promise<Response>;
 }
+
+export {};

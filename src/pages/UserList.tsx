@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Layout } from '../components/Layout';
+import { Layout } from "../components/Layout";
 
 type User = {
   name: string;
@@ -8,7 +8,7 @@ type User = {
 
 const users: User[] = [];
 
-for (var i = 0; i <= 100000; i++) {
+for (var i = 0; i <= 10000; i++) {
   users.push({
     name: (Math.random() + 1).toString(36).substring(7),
   });
@@ -19,7 +19,7 @@ export function UserList(props: {}) {
     <Layout>
       <ul>
         {users.map((user) => {
-          return <li>{user.name}</li>;
+          return <li key={user.name}>{user.name}</li>;
         })}
       </ul>
     </Layout>

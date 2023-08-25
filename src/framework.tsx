@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { renderToReadableStream, renderToString } from 'react-dom/server';
+import * as React from "react";
+import { renderToReadableStream, renderToString } from "react-dom/server";
 
 export async function renderComponent(
-  component: React.ReactElement,
-  request: Request
+  request: Request,
+  component: React.ReactElement
 ) {
   if (!request.headers.get("Hx-Boosted")) {
     const publicHtml = await Bun.file("./public.html").text();
@@ -23,24 +23,4 @@ export async function renderComponent(
   return new Response(stream, {
     headers: { "Content-Type": "text/html" },
   });
-}
-
-export class Router {
-  routes: { [key: string]: (req: Request) => Promise<Response> } = {};
-
-  routeToComponent(path: string, component: React.ReactElement) {
-    this.routes[path] = (req: Request) => {
-      return renderComponent(component, req);
-    };
-  }
-
-  run(path: string, request: Request): Promise<Response> {
-    const route = this.routes[path];
-
-    if (route) {
-      return route(request);
-    }
-
-    return Promise.resolve(new Response("Route not found"));
-  }
 }
