@@ -1,17 +1,19 @@
-import * as React from "react";
 import { renderToString } from "react-dom/server";
 
-import { renderComponent } from "./framework";
-import Router from "./framework/router";
 import { UserList } from "./pages/Customers";
 import Customers from "./pages/Login";
+import Router from "./framework/server/router";
 import { Navbar } from "./pages/Navbar";
 import { User } from "./pages/User";
+import { renderComponent } from "./framework/renderer/renderComponent";
+import { Orders } from "./pages/Orders";
 
 
 export const router = new Router();
 
-router.get("/", async (req) => {
+const cssFile = await Bun.file("./public/app.css").text();
+
+router.get("/", async () => {
   const publicHtml = await Bun.file("./public/index.html").text();
   const component = await renderToString(<Navbar />);
 
@@ -20,8 +22,8 @@ router.get("/", async (req) => {
   });
 });
 
-router.get("/public/app.css", async (req) => {
-  return new Response(await Bun.file("./public/app.css"), {
+router.get("/dist/output.css", async () => {
+  return new Response(cssFile, {
     headers: { "Content-Type": "text/css" },
   });
 });

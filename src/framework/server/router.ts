@@ -1,3 +1,5 @@
+type RequestHandler = (req: Request) => Promise<Response>;
+
 export default class Router {
   routeMap: Map<string, RequestHandler> = new Map();
 
@@ -50,6 +52,7 @@ export default class Router {
    * Handles the incoming request by matching it to a route and executing the associated handler.
    */
   serve(req: Request) {
+    req.path = new URL(req.url);
     const route = this.matchRoute(req);
 
     if (!route) {

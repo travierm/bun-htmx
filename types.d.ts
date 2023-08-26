@@ -9,8 +9,6 @@ declare global {
       >;
     }
   }
-
-  type RequestHandler = (req: Request) => Promise<Response>;
 }
 
 export {};
