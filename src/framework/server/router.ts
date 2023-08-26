@@ -1,3 +1,5 @@
+type RequestHandler = (req: Request) => Promise<Response>;
+
 export default class Router {
   routeMap: Map<string, RequestHandler> = new Map();
 
@@ -35,9 +37,7 @@ export default class Router {
    * @private
    */
   private matchRoute(req: Request) {
-    const url = new URL(req.url);
-
-    const routeKey = `${req.method.toUpperCase()}|${url.pathname}`;
+    const routeKey = req.method.toUpperCase() + "|" + req.path.pathname;
     const route = this.routeMap.get(routeKey);
 
     if (!route) {
@@ -52,6 +52,7 @@ export default class Router {
    * Handles the incoming request by matching it to a route and executing the associated handler.
    */
   serve(req: Request) {
+    req.path = new URL(req.url);
     const route = this.matchRoute(req);
 
     if (!route) {

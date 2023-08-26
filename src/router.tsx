@@ -1,26 +1,20 @@
-import * as React from "react";
-import { renderToString } from "react-dom/server";
-
-import { renderComponent } from "./framework";
-import Router from "./framework/router";
-import { Customers } from "./pages/Customers";
-import Login from "./pages/Login";
+import { renderComponent } from "./framework/renderer/renderComponent";
+import Router from "./framework/server/router";
+import Customers from "./pages/Login";
 import { Navbar } from "./pages/Navbar";
 import { Orders } from "./pages/Orders";
+import { User } from "./pages/User";
 
 export const router = new Router();
 
-router.get("/", async (req) => {
-  const publicHtml = await Bun.file("./public/index.html").text();
-  const component = await renderToString(<Navbar />);
+const cssFile = await Bun.file("./public/app.css").text();
 
-  return new Response(publicHtml.replace("@content", component), {
-    headers: { "Content-Type": "text/html" },
-  });
+router.get("/", async (req) => {
+  return renderComponent(req, <Navbar />);
 });
 
-router.get("/public/app.css", async (req) => {
-  return new Response(await Bun.file("./public/app.css"), {
+router.get("/public/app.css", async () => {
+  return new Response(cssFile, {
     headers: { "Content-Type": "text/css" },
   });
 });
@@ -35,4 +29,8 @@ router.get("/orders", (req) => {
 
 router.get("/customers", (req) => {
   return renderComponent(req, <Customers />);
+});
+
+router.get("/users/:userId", (req) => {
+  return renderComponent(req, <User />);
 });
