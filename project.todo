@@ -1,5 +1,5 @@
 Travier:
-    ☐ Add Controller Layer
+    ✔ Add Controller Layer @done(23-08-26 18:40)
     ☐ Add login page
     ☐ Add Middleware
     ☐ Add Auth Middleware
