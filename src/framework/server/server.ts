@@ -47,14 +47,7 @@ export default class Server {
    * Add routes from another router instance
    */
   useRouter(opts: UseRouterParams) {
-    const routerRoutes = opts.router.getRoutes();
-    const currentRouterRoutes = this.router.getRoutes();
-    const path = opts.prefixPath || "";
-
-    // Add routs to the current router's routes with the specified prefix path
-    routerRoutes.forEach((handler, key) => {
-      currentRouterRoutes.set(`${path + key}`, handler);
-    });
+    this.router.addExternalRouter(opts.router, opts.prefixPath);
   }
 
   printRoutes() {
@@ -72,7 +65,7 @@ export default class Server {
       }
     });
 
-    console.group("Routes");
+    console.group("Routes:");
     routesByPath.forEach((methods, path) => {
       const pathMethods = methods.join(",");
       console.log(`{${pathMethods}} -`, path);
