@@ -1,8 +1,9 @@
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
-dist/
 
 # Logs
+
+public/*.css
 
 logs
 _.log
