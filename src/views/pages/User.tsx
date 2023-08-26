@@ -1,6 +1,6 @@
-// import * as React from "react";
-
 import { Layout } from "../components/Layout";
+
+// import * as React from "react";
 
 // type User = {
 //   name: string;
@@ -9,9 +9,7 @@ import { Layout } from "../components/Layout";
 export function User(props: {}) {
   return (
     <Layout>
-      <ul>
-       test user
-      </ul>
+      <ul>test user</ul>
     </Layout>
   );
 }

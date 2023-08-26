@@ -2,7 +2,7 @@ import { BaseButton } from "../components/BaseButton";
 import { FormInput } from "../components/form/Input";
 import { Layout } from "../components/Layout";
 
-export default function Login() {
+export function Login() {
   return (
     <Layout>
       <div className="flex items-center justify-center">

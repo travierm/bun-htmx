@@ -1,9 +1,10 @@
 import { renderComponent } from "./framework/renderer/renderComponent";
 import Router from "./framework/server/router";
-import Customers from "./pages/Login";
-import { Navbar } from "./pages/Navbar";
-import { Orders } from "./pages/Orders";
-import { User } from "./pages/User";
+import { Customers } from "./views/pages/Customers";
+import { Login } from "./views/pages/Login";
+import { Navbar } from "./views/pages/Navbar";
+import { Orders } from "./views/pages/Orders";
+import { User } from "./views/pages/User";
 
 export const router = new Router();
 
