@@ -13,16 +13,11 @@ export const router = new Router();
 
 const cssFile = await Bun.file("./public/app.css").text();
 
-router.get("/", async () => {
-  const publicHtml = await Bun.file("./public/index.html").text();
-  const component = await renderToString(<Navbar />);
-
-  return new Response(publicHtml.replace("@content", component), {
-    headers: { "Content-Type": "text/html" },
-  });
+router.get("/", async (req) => {
+  return renderComponent(req, <Navbar />)
 });
 
-router.get("/dist/output.css", async () => {
+router.get("/dist/app.css", async () => {
   return new Response(cssFile, {
     headers: { "Content-Type": "text/css" },
   });

@@ -1,7 +1,7 @@
 import { renderToString } from "react-dom/server";
 import { htmlParser } from "./parseHtml";
 
-await htmlParser.parse("/public/index.html");
+await htmlParser.parse("./public/index.html");
 
 export async function renderComponent(
   request: Request,
