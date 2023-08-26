@@ -17,7 +17,7 @@ router.get("/", async (req) => {
   return renderComponent(req, <Navbar />)
 });
 
-router.get("/dist/app.css", async () => {
+router.get("/public/app.css", async () => {
   return new Response(cssFile, {
     headers: { "Content-Type": "text/css" },
   });
