@@ -6,7 +6,8 @@ import Router from "./framework/router";
 import { UserList } from "./pages/Customers";
 import Customers from "./pages/Login";
 import { Navbar } from "./pages/Navbar";
-import { Orders } from "./pages/Orders";
+import { User } from "./pages/User";
+
 
 export const router = new Router();
 
@@ -35,4 +36,8 @@ router.get("/about", (req) => {
 
 router.get("/users", (req) => {
   return renderComponent(req, <UserList />);
+});
+
+router.get("/users/:userId", (req) => {
+  return renderComponent(req, <User />);
 });

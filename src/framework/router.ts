@@ -35,9 +35,7 @@ export default class Router {
    * @private
    */
   private matchRoute(req: Request) {
-    const url = new URL(req.url);
-
-    const routeKey = `${req.method.toUpperCase()}|${url.pathname}`;
+    const routeKey = req.method.toUpperCase() + "|" + req.path.pathname;
     const route = this.routeMap.get(routeKey);
 
     if (!route) {
