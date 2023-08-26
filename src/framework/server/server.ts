@@ -1,5 +1,6 @@
+import { ServeOptions, Server as BunServer } from "bun";
+
 import Router from "./router";
-import { Server as BunServer, ServeOptions } from "bun";
 
 export type ListenOptions = Omit<ServeOptions, "fetch">;
 export type UseRouterParams = { prefixPath?: string; router: Router };
@@ -19,6 +20,10 @@ export default class Server {
 
   constructor() {
     this.router = new Router();
+  }
+
+  stop() {
+    globalThis.server.stop();
   }
 
   /**

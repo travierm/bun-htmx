@@ -21,3 +21,6 @@ router.get("/login", controllers.AuthController.getLogin);
 // authed
 router.get("/customers", controllers.CustomerController.getCustomers);
 router.get("/orders", controllers.OrderController.getOrders);
+router.get("/ping", async () => {
+  return new Response("pong", { status: 200 });
+});
