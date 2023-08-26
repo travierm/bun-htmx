@@ -7,6 +7,11 @@ export type UseRouterParams = { prefixPath?: string; router: Router };
 // Make TypeScript happy
 declare global {
   var server: BunServer;
+
+  interface Request {
+    path: URL;
+    params: Map<string, string>;
+  }
 }
 
 export default class Server {
