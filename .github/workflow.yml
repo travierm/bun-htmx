@@ -7,7 +7,7 @@ on:
 name: bun-tests
 jobs:
   bun-tests:
-    name: bun0tests
+    name: bun-tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
