@@ -1,37 +1,23 @@
-import { renderComponent } from "./framework/renderer/renderComponent";
+import { AppController } from "./controllers/AppController";
+import { AuthController } from "./controllers/AuthController";
+import { CustomerController } from "./controllers/CustomerController";
+import { OrderController } from "./controllers/OrderController";
 import Router from "./framework/server/router";
-import { Customers } from "./views/pages/Customers";
-import { Login } from "./views/pages/Login";
-import { Navbar } from "./views/pages/Navbar";
-import { Orders } from "./views/pages/Orders";
-import { User } from "./views/pages/User";
+
+const controllers = {
+  AppController: new AppController(),
+  AuthController: new AuthController(),
+  CustomerController: new CustomerController(),
+  OrderController: new OrderController(),
+};
 
 export const router = new Router();
 
-const cssFile = await Bun.file("./public/app.css").text();
+// non-authed
+router.get("/", controllers.AppController.getIndex);
+router.get("/public/app.css", controllers.AppController.getAppCss);
+router.get("/login", controllers.AuthController.getLogin);
 
-router.get("/", async (req) => {
-  return renderComponent(req, <Navbar />);
-});
-
-router.get("/public/app.css", async () => {
-  return new Response(cssFile, {
-    headers: { "Content-Type": "text/css" },
-  });
-});
-
-router.get("/login", (req) => {
-  return renderComponent(req, <Login />);
-});
-
-router.get("/orders", (req) => {
-  return renderComponent(req, <Orders message="Hello from server!" />);
-});
-
-router.get("/customers", (req) => {
-  return renderComponent(req, <Customers />);
-});
-
-router.get("/users/:userId", (req) => {
-  return renderComponent(req, <User />);
-});
+// authed
+router.get("/customers", controllers.CustomerController.getCustomers);
+router.get("/orders", controllers.OrderController.getOrders);
