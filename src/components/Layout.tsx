@@ -8,7 +8,7 @@ type Props = {
 
 export function Layout(props: Props) {
   return (
-    <div>
+    <div className="h-full">
       <Navbar />
 
       {props.children}

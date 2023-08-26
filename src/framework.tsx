@@ -6,7 +6,7 @@ export async function renderComponent(
   component: React.ReactElement
 ) {
   if (!request.headers.get("Hx-Boosted")) {
-    const publicHtml = await Bun.file("./public.html").text();
+    const publicHtml = await Bun.file("./public/index.html").text();
     const resp = renderToString(component);
 
     return new Response(publicHtml.replace("@content", resp), {

@@ -3,14 +3,15 @@ import { renderToString } from "react-dom/server";
 
 import { renderComponent } from "./framework";
 import Router from "./framework/router";
-import { About } from "./pages/About";
+import { UserList } from "./pages/Customers";
+import Customers from "./pages/Login";
 import { Navbar } from "./pages/Navbar";
-import { UserList } from "./pages/UserList";
+import { Orders } from "./pages/Orders";
 
 export const router = new Router();
 
 router.get("/", async (req) => {
-  const publicHtml = await Bun.file("./public.html").text();
+  const publicHtml = await Bun.file("./public/index.html").text();
   const component = await renderToString(<Navbar />);
 
   return new Response(publicHtml.replace("@content", component), {
@@ -18,14 +19,18 @@ router.get("/", async (req) => {
   });
 });
 
-router.get("/dist/output.css", async (req) => {
-  return new Response(await Bun.file("./dist/output.css"), {
+router.get("/public/app.css", async (req) => {
+  return new Response(await Bun.file("./public/app.css"), {
     headers: { "Content-Type": "text/css" },
   });
 });
 
+router.get("/login", (req) => {
+  return renderComponent(req, <Customers />);
+});
+
 router.get("/about", (req) => {
-  return renderComponent(req, <About message="Hello from server!" />);
+  return renderComponent(req, <Orders message="Hello from server!" />);
 });
 
 router.get("/users", (req) => {
