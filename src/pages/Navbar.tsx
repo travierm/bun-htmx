@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export function Navbar() {
   return (
@@ -6,8 +6,8 @@ export function Navbar() {
       <div className="mr-4">Bun+HTMX</div>
 
       <div className="flex gap-2 mr-2">
-        <a href="/about">About</a>
-        <a href="/users">Users</a>
+        <a href="/orders">Orders</a>
+        <a href="/customers">Customers</a>
       </div>
     </nav>
   );

@@ -3,8 +3,8 @@ import { renderToString } from "react-dom/server";
 
 import { renderComponent } from "./framework";
 import Router from "./framework/router";
-import { UserList } from "./pages/Customers";
-import Customers from "./pages/Login";
+import { Customers } from "./pages/Customers";
+import Login from "./pages/Login";
 import { Navbar } from "./pages/Navbar";
 import { Orders } from "./pages/Orders";
 
@@ -26,13 +26,13 @@ router.get("/public/app.css", async (req) => {
 });
 
 router.get("/login", (req) => {
-  return renderComponent(req, <Customers />);
+  return renderComponent(req, <Login />);
 });
 
-router.get("/about", (req) => {
+router.get("/orders", (req) => {
   return renderComponent(req, <Orders message="Hello from server!" />);
 });
 
-router.get("/users", (req) => {
-  return renderComponent(req, <UserList />);
+router.get("/customers", (req) => {
+  return renderComponent(req, <Customers />);
 });

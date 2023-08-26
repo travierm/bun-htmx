@@ -14,9 +14,10 @@ for (var i = 0; i <= 10000; i++) {
   });
 }
 
-export function UserList(props: {}) {
+export function Customers(props: {}) {
   return (
     <Layout>
+      <h1>Customers</h1>
       <ul>
         {users.map((user) => {
           return <li key={user.name}>{user.name}</li>;
