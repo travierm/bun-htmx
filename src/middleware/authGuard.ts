@@ -1,3 +1,17 @@
+export type User = {
+  id: number;
+  username: string;
+};
+
+declare global {
+  interface Request {
+    user: User | null;
+  }
+}
+
 export async function authGuard(req: Request) {
-  return req;
+  req.user = {
+    id: 1,
+    username: "test",
+  };
 }

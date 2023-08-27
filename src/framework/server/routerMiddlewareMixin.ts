@@ -1,6 +1,6 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-export type Middleware = (req: Request) => Promise<Request>;
+export type Middleware = (req: Request) => void;
 export type RouterMiddleware = {};
 
 let pendingMiddleware: Array<Middleware> = [];
@@ -11,8 +11,6 @@ export function RouterMiddlewareMixin<T extends Constructor>(Base: T) {
   return class extends Base {
     use(middleware: Middleware) {
       globalMiddleware.push(middleware);
-
-      console.log("registered middleware", globalMiddleware);
     }
 
     group(middleware: Array<Middleware>, callback: () => void) {
