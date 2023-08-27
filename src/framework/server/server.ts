@@ -35,8 +35,8 @@ export default class Server {
     // Override fetch method to use the router's serve method
     const serverOptions = {
       ...options,
-      fetch(req: Request): Promise<Response> {
-        return router.serve(req);
+      async fetch(req: Request): Promise<Response> {
+        return await router.serve(req);
       },
     };
 

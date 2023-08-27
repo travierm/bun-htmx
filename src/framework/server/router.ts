@@ -52,7 +52,7 @@ export default class Router extends RouterMiddlewareMixin(class {}) {
     this.routeMap.set(key, handler);
     this.routerTree.insert(key, handler);
 
-    // Applies middleware to route if pending middleware exists
+    // Register middleware to a route if pending middleware exists
     this.registerRouteMiddleware(key);
   }
 
@@ -78,7 +78,7 @@ export default class Router extends RouterMiddlewareMixin(class {}) {
   /**
    * Handles the incoming request by matching it to a route and executing the associated handler.
    */
-  serve(req: Request) {
+  async serve(req: Request) {
     req.path = new URL(req.url);
     const matchedRoute = this.matchRoute(req);
 
@@ -90,8 +90,8 @@ export default class Router extends RouterMiddlewareMixin(class {}) {
       );
     }
     req.params = matchedRoute.params;
-    req = this.applyMiddleware(matchedRoute.routeKey, req).req;
 
-    return matchedRoute.handler(req);
+    const context = await this.applyMiddleware(matchedRoute.routeKey, req);
+    return matchedRoute.handler(context.req);
   }
 }

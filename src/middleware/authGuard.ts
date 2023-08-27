@@ -1,11 +1,5 @@
-export function authGuard(req: Request): Response | null {
-  const { pathname } = new URL(req.url);
+export async function authGuard(req: Request) {
+  console.log("auth guard was called");
 
-  if (pathname.startsWith("/admin")) {
-    // Check if user is logged in
-    // If not, redirect to login page
-    return new Response("Admin page");
-  }
-
-  return null;
+  return req;
 }
