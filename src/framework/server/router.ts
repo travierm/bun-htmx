@@ -1,19 +1,11 @@
-import { RadixTree } from './radixTree';
+import { RadixTree } from "./radixTree";
+import { RouterMiddlewareMixin } from "./routerMiddlewareMixin";
 
 type RequestHandler = (req: Request) => Promise<Response>;
-type Middleware = (req: Request) => Promise<Request>;
 
-export default class Router {
+export default class Router extends RouterMiddlewareMixin(class {}) {
   routerTree = new RadixTree();
   routeMap: Map<string, RequestHandler> = new Map();
-  middlewareMap: Map<string, Array<Middleware>> = new Map();
-  pendingMiddleware: Array<Middleware> = [];
-
-  group(middleware: Array<Middleware>, callback: () => void) {
-    this.pendingMiddleware = middleware;
-    callback();
-    this.pendingMiddleware = [];
-  }
 
   get(path: string, handler: RequestHandler) {
     const key = `GET|${path}`;
@@ -60,11 +52,8 @@ export default class Router {
     this.routeMap.set(key, handler);
     this.routerTree.insert(key, handler);
 
-    // Add middleware to the middleware map
-    if (this.pendingMiddleware.length > 0) {
-      this.middlewareMap.set(key, this.pendingMiddleware);
-      this.pendingMiddleware = [];
-    }
+    // Applies middleware to route if pending middleware exists
+    this.registerRouteMiddleware(key);
   }
 
   /**
@@ -82,7 +71,7 @@ export default class Router {
 
     return {
       ...route,
-      routeKey
+      routeKey,
     };
   }
 
@@ -100,16 +89,8 @@ export default class Router {
         })
       );
     }
-
     req.params = matchedRoute.params;
-
-    // Apply middleware
-    const middleware = this.middlewareMap.get(matchedRoute.) || [];
-
-    for (const middlewareFn of middleware) {
-
-      let req = middlewareFn(req);
-    }
+    req = this.applyMiddleware(matchedRoute.routeKey, req).req;
 
     return matchedRoute.handler(req);
   }
