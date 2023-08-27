@@ -7,52 +7,51 @@ export type Middleware = (
 ) => void;
 export type RouterMiddleware = {};
 
-let nextCheck: boolean = false;
-let pendingMiddleware: Array<Middleware> = [];
-let globalMiddleware: Array<Middleware> = [];
-let middlewareMap: Map<string, Array<Middleware>> = new Map();
-
 export function RouterMiddlewareMixin<T extends Constructor>(Base: T) {
   return class extends Base {
+    pendingMiddleware: Array<Middleware> = [];
+    globalMiddleware: Array<Middleware> = [];
+    middlewareMap: Map<string, Array<Middleware>> = new Map();
+    nextCheck: boolean = false;
+
     use(middleware: Middleware) {
-      globalMiddleware.push(middleware);
+      this.globalMiddleware.push(middleware);
     }
 
     group(middleware: Array<Middleware>, callback: () => void) {
-      pendingMiddleware = middleware;
+      this.pendingMiddleware = middleware;
       callback();
-      pendingMiddleware = [];
+      this.pendingMiddleware = [];
     }
 
     registerRouteMiddleware(key: string) {
-      if (pendingMiddleware.length > 0) {
-        middlewareMap.set(key, pendingMiddleware);
+      if (this.pendingMiddleware.length > 0) {
+        this.middlewareMap.set(key, this.pendingMiddleware);
       }
     }
 
     next() {
-      nextCheck = true;
+      this.nextCheck = true;
     }
 
     async applyMiddleware(key: string, req: Request, res: Response) {
       let endedResponse: boolean = false;
-      const middleware = middlewareMap.get(key) || [];
+      const middleware = this.middlewareMap.get(key) || [];
 
-      for (const fn of globalMiddleware) {
-        nextCheck = false;
+      for (const fn of this.globalMiddleware) {
+        this.nextCheck = false;
+        await fn(req, res, this.next.bind(this));
 
-        await fn(req, res, this.next);
-
-        if (nextCheck === false) {
+        if (this.nextCheck === false) {
           return { req, endedResponse: true };
         }
       }
 
       for (const fn of middleware) {
-        nextCheck = false;
-        await fn(req, res, this.next);
+        this.nextCheck = false;
+        await fn(req, res, this.next.bind(this));
 
-        if (nextCheck === false) {
+        if (this.nextCheck === false) {
           return { req, endedResponse: true };
         }
       }

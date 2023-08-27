@@ -3,13 +3,13 @@ import { expect, test } from "bun:test";
 import Server from "../src/framework/server/server";
 import { router } from "../src/router";
 
-const server = new Server();
-
-server.useRouter({
-  router: router,
-});
-
 test("can GET /ping", async () => {
+  const server = new Server();
+
+  server.useRouter({
+    router: router,
+  });
+
   server.listen({
     port: 4444,
     hostname: "localhost",

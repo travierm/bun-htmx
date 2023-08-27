@@ -9,6 +9,6 @@ declare global {
   }
 }
 
-export async function authGuard(req: Request, res: Response, next: () => void) {
+export async function authGuard(req: Request, res: Response, next) {
   next();
 }
