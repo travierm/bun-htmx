@@ -43,7 +43,7 @@ export function RouterMiddlewareMixin<T extends Constructor>(Base: T) {
         await fn(req, res, this.next.bind(this));
 
         if (this.nextCheck === false) {
-          return { req, endedResponse: true };
+          return { req, res, endedResponse: true };
         }
       }
 
@@ -52,7 +52,7 @@ export function RouterMiddlewareMixin<T extends Constructor>(Base: T) {
         await fn(req, res, this.next.bind(this));
 
         if (this.nextCheck === false) {
-          return { req, endedResponse: true };
+          return { req, res, endedResponse: true };
         }
       }
 

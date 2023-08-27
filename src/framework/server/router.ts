@@ -6,6 +6,7 @@ type RequestHandler = (req: Request) => Promise<Response>;
 export default class Router extends RouterMiddlewareMixin(class {}) {
   routerTree = new RadixTree();
   routeMap: Map<string, RequestHandler> = new Map();
+  reactiveResponse: Response | null = null;
 
   get(path: string, handler: RequestHandler) {
     const key = `GET|${path}`;
@@ -93,14 +94,14 @@ export default class Router extends RouterMiddlewareMixin(class {}) {
 
     let res = new Response();
     res.send = (status: number, body: string) => {
-      res = new Response(body, {
+      this.reactiveResponse = new Response(body, {
         status,
       });
     };
 
     const context = await this.applyMiddleware(matchedRoute.routeKey, req, res);
-    if (context.endedResponse) {
-      return context.res;
+    if (context.endedResponse && this.reactiveResponse) {
+      return this.reactiveResponse;
     }
 
     return matchedRoute.handler(context.req);

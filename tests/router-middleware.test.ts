@@ -64,6 +64,5 @@ test("middleware can end request", async () => {
 
   // Act & Assert
   const response = await router.serve(new Request("http://localhost/ping"));
-  console.log(response);
-  //expect(response.text()).resolves.toBe("middleware error");
+  expect(response.text()).resolves.toBe("middleware error");
 });
