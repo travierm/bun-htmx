@@ -1,8 +1,13 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-export type Middleware = (req: Request) => void;
+export type Middleware = (
+  req: Request,
+  Res: Response,
+  next: () => void
+) => void;
 export type RouterMiddleware = {};
 
+let nextCheck: boolean = false;
 let pendingMiddleware: Array<Middleware> = [];
 let globalMiddleware: Array<Middleware> = [];
 let middlewareMap: Map<string, Array<Middleware>> = new Map();
@@ -25,18 +30,34 @@ export function RouterMiddlewareMixin<T extends Constructor>(Base: T) {
       }
     }
 
-    async applyMiddleware(key: string, req: Request) {
+    next() {
+      nextCheck = true;
+    }
+
+    async applyMiddleware(key: string, req: Request, res: Response) {
+      let endedResponse: boolean = false;
       const middleware = middlewareMap.get(key) || [];
 
       for (const fn of globalMiddleware) {
-        await fn(req);
+        nextCheck = false;
+
+        await fn(req, res, this.next);
+
+        if (nextCheck === false) {
+          return { req, endedResponse: true };
+        }
       }
 
       for (const fn of middleware) {
-        await fn(req);
+        nextCheck = false;
+        await fn(req, res, this.next);
+
+        if (nextCheck === false) {
+          return { req, endedResponse: true };
+        }
       }
 
-      return { req };
+      return { req, res, endedResponse };
     }
   };
 }

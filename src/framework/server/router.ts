@@ -91,7 +91,18 @@ export default class Router extends RouterMiddlewareMixin(class {}) {
     }
     req.params = matchedRoute.params;
 
-    const context = await this.applyMiddleware(matchedRoute.routeKey, req);
+    let res = new Response();
+    res.send = (status: number, body: string) => {
+      res = new Response(body, {
+        status,
+      });
+    };
+
+    const context = await this.applyMiddleware(matchedRoute.routeKey, req, res);
+    if (context.endedResponse) {
+      return context.res;
+    }
+
     return matchedRoute.handler(context.req);
   }
 }

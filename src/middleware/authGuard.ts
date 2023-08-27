@@ -9,9 +9,6 @@ declare global {
   }
 }
 
-export async function authGuard(req: Request) {
-  req.user = {
-    id: 1,
-    username: "test",
-  };
+export async function authGuard(req: Request, res: Response, next: () => void) {
+  next();
 }

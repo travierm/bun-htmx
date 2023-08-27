@@ -13,6 +13,10 @@ declare global {
     path: URL;
     params: Map<string, string>;
   }
+
+  interface Response {
+    send: (status: number, body: string) => void;
+  }
 }
 
 export default class Server {

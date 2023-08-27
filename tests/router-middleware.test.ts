@@ -8,10 +8,10 @@ test("can run global middleware", async () => {
   // Arrange
   let counter: number = 0;
 
-  router.use(async (req) => {
+  router.use(async (req, res, next) => {
     counter = counter + 1;
 
-    return req;
+    next();
   });
 
   router.get("/", async (req) => {
@@ -29,10 +29,10 @@ test("can run global middleware", async () => {
 test("can run route specfic middleware", async () => {
   // Arrange
   let counter: number = 0;
-  const routeSpecficMiddleware: Middleware = async (req) => {
+  const routeSpecficMiddleware: Middleware = async (req, res, next) => {
     counter = counter + 1;
 
-    return req;
+    next();
   };
 
   router.group([routeSpecficMiddleware], () => {
