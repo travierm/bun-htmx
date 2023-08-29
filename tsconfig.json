@@ -14,15 +14,20 @@
     "noEmit": true,
     "composite": true,
     "moduleDetection": "force",
-
-    "jsx": "react-jsx", // support JSX
+    //"jsxImportSource": "hono/jsx",
+    //"jsx": "react-jsx", // support JSX
     "allowJs": true, // allow importing `.js` from `.ts`
     "esModuleInterop": true, // allow default imports for CommonJS modules
 
     // best practices
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "hono/jsx",
+    "declaration": true
   },
   "exclude": ["node_modules"]
 }

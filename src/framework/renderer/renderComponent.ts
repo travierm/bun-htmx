@@ -1,10 +1,13 @@
+import { HonoRequest } from "hono";
+import { html } from "hono/html";
 import { renderToString } from "react-dom/server";
+
 import { htmlParser } from "./parseHtml";
 
 await htmlParser.parse("./public/index.html");
 
 export async function renderComponent(
-  request: Request,
+  request: HonoRequest,
   component: React.ReactElement
 ) {
   const stringComponent = renderToString(component);
