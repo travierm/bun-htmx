@@ -17,10 +17,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "hono": "^3.5.4",
     "@types/react-dom": "^18.2.7",
     "@types/web": "^0.0.99",
+    "hono": "^3.5.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.2"
   }
 }
