@@ -39,4 +39,10 @@ export function initControllerRoutes(app: Hono) {
   });
 
   app.get("/", controllers.AppController.getIndex);
+  app.get("/customers", controllers.CustomerController.getCustomers);
+  app.get("/orders", controllers.OrderController.getOrders);
+  app.get("/login", controllers.AuthController.getLogin);
+  app.get("/ping", async (req) => {
+    return new Response("pong", { status: 200 });
+  });
 }
