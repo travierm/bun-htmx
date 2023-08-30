@@ -2,8 +2,8 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 
-import { initAssetRoutes } from "./routers/assetRouter";
-import { initControllerRoutes } from "./routers/controllerRouter";
+import { initAssetRoutes } from "./http/routers/assetRouter";
+import { initControllerRoutes } from "./http/routers/controllerRouter";
 
 const app = new Hono();
 

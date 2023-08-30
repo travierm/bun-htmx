@@ -20,10 +20,10 @@ export function Login(props: Props) {
           )}
 
           <FormInput
-            name="username"
+            name="email"
             type="text"
-            label="Username"
-            placeholder="Username"
+            label="Email"
+            placeholder="Email"
             required
           />
 

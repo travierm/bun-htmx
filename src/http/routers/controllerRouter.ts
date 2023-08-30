@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 
+import { htmlParser } from "../../framework/renderer/parseHtml";
 import { AppController } from "../controllers/AppController";
 import { AuthController } from "../controllers/AuthController";
 import { CustomerController } from "../controllers/CustomerController";
 import { OrderController } from "../controllers/OrderController";
-import { htmlParser } from "../framework/renderer/parseHtml";
 
 const controllers = {
   AppController: new AppController(),
@@ -26,10 +26,7 @@ export function initControllerRoutes(app: Hono) {
 
     if (!c.req.headers.get("Hx-Boosted")) {
       if (c.res.body && c.res.status === 200) {
-        const reader = c.res.body.getReader();
-        const { done, value } = await reader.read();
-        reader.releaseLock();
-        const result = new TextDecoder().decode(value);
+        const result = await c.res.text();
         if (result) {
           const content = htmlParser.injectContent(result);
           c.res = c.newResponse(content, 200);
@@ -42,7 +39,10 @@ export function initControllerRoutes(app: Hono) {
   app.get("/customers", controllers.CustomerController.getCustomers);
   app.get("/orders", controllers.OrderController.getOrders);
   app.get("/login", controllers.AuthController.getLogin);
-  app.post("/login", controllers.AuthController.postLogin);
+  app.post(
+    "/login",
+    controllers.AuthController.postLogin.bind(controllers.AuthController)
+  );
   app.get("/ping", async (req) => {
     return new Response("pong", { status: 200 });
   });
