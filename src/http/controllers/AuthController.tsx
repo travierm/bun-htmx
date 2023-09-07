@@ -1,4 +1,5 @@
 import { Context } from "hono";
+import { setCookie } from "hono/cookie";
 
 import { renderComponent } from "../../framework/renderer/renderComponent";
 import { Login } from "../../views/pages/Login";
@@ -18,17 +19,18 @@ export class AuthController {
   async postLogin(c: Context) {
     const body = await c.req.formData();
     try {
-      const user = this.userService.loginUser(
+      const user = await this.userService.loginUser(
         body.get("email"),
         body.get("password")
       );
 
-      console.log(body.get("email"));
-      console.log(user);
-
       if (!user) {
         return renderComponent(<Login errors={{ login: "failed" }} />);
       }
+
+      setCookie(c, "token", user.token, {
+        expires: user.tokenExpiration,
+      });
     } catch (e) {
       throw e;
       return renderComponent(<Login errors={{ login: "failed" }} />);
