@@ -1,6 +1,8 @@
 import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
+import { UserService } from "../services/UserService";
+
 export type User = {
   id: number;
   username: string;
@@ -27,6 +29,7 @@ export const authGuard = (): MiddlewareHandler => {
       return c.redirect("/login");
     }
 
-    c.set;
+    const user = UserService;
+    c.set("user", t);
   };
 };
