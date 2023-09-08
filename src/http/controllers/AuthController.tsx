@@ -2,15 +2,12 @@ import { Context } from "hono";
 import { setCookie } from "hono/cookie";
 
 import { renderComponent } from "../../framework/renderer/renderComponent";
+import { serviceContainer } from "../../services";
 import { Login } from "../../views/pages/Login";
 import { UserService } from "../services/UserService";
 
 export class AuthController {
-  userService: UserService = new UserService();
-
-  constructor() {
-    this.userService.createUser("admin", "admin");
-  }
+  userService: UserService = serviceContainer.resolve(UserService);
 
   public getLogin(c: Context) {
     return renderComponent(<Login />);
@@ -32,7 +29,6 @@ export class AuthController {
         expires: user.tokenExpiration,
       });
     } catch (e) {
-      throw e;
       return renderComponent(<Login errors={{ login: "failed" }} />);
     }
 

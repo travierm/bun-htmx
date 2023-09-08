@@ -1,6 +1,7 @@
 import { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 
+import { serviceContainer } from "../../services";
 import { UserService } from "../services/UserService";
 
 export type User = {
@@ -14,12 +15,12 @@ export type User = {
 //   }
 // }
 
-const unAuthedPaths = ["/login", "/ping"];
+const unAuthedPaths = ["/login", "/ping", "/public/app.css"];
 
 export const authGuard = (): MiddlewareHandler => {
   return async (c, next) => {
     // Unauthed route we should let the request continue without changes
-    if (c.req.url && unAuthedPaths.includes(c.req.url)) {
+    if (c.req.path && unAuthedPaths.includes(c.req.path)) {
       return next();
     }
 
@@ -29,7 +30,15 @@ export const authGuard = (): MiddlewareHandler => {
       return c.redirect("/login");
     }
 
-    const user = UserService;
-    c.set("user", t);
+    const userService = serviceContainer.resolve(UserService);
+    const user = userService.getUserByToken(token);
+    if (!user) {
+      // no token data in-memory
+      return c.redirect("/login");
+    }
+
+    c.set("user", user);
+
+    return next();
   };
 };

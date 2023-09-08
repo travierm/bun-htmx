@@ -11,7 +11,17 @@ const users: User[] = [];
 const tokenStore = new Map<string, User>();
 
 export class UserService {
-  public createUser(email: string, password: string): User {
+  constructor() {
+    console.log("booted user service");
+  }
+
+  public getUserByToken(token: string): User | undefined {
+    return tokenStore.get(token);
+  }
+
+  public async createUser(email: string, password: string): Promise<User> {
+    password = await Bun.password.hash(password);
+
     const user = { email, password, token: uuidv4(), id: users.length + 1 };
     users.push(user);
 
@@ -22,23 +32,19 @@ export class UserService {
     return users.find((user) => user.email === email);
   }
 
-  public async loginUser(
-    email: string,
-    password: string
-  ): Promise<User | undefined> {
+  public async loginUser(email: string, password: string): Promise<User> {
     const user = this.getUser(email);
     if (!user) {
-      return undefined;
+      throw new Error("Invalid email");
     }
 
-    const hashedPassword = await Bun.password.hash(password);
-    if (!Bun.password.verify(user.password, hashedPassword)) {
+    const verfied = await Bun.password.verify(password, user.password);
+    if (!verfied) {
       throw new Error("Invalid password");
     }
 
     user.token = uuidv4();
     user.tokenExpiration = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
-
     tokenStore.set(user.token, user);
 
     return user;
