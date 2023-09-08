@@ -1,5 +1,6 @@
 import { Context } from "hono";
 import { setCookie } from "hono/cookie";
+import { z } from "zod";
 
 import { renderComponent } from "../../framework/renderer/renderComponent";
 import { serviceContainer } from "../../services";
@@ -14,12 +15,15 @@ export class AuthController {
   }
 
   async postLogin(c: Context) {
-    const body = await c.req.formData();
+    const verifier = z.object({
+      email: z.string(),
+      password: z.string(),
+    });
+
+    const body = verifier.parse(c.req.parseBody());
+
     try {
-      const user = await this.userService.loginUser(
-        body.get("email"),
-        body.get("password")
-      );
+      const user = await this.userService.loginUser(body.email, body.password);
 
       if (!user) {
         return renderComponent(<Login errors={{ login: "failed" }} />);
