@@ -43,6 +43,11 @@ export function initControllerRoutes(app: Hono) {
     "/login",
     controllers.AuthController.postLogin.bind(controllers.AuthController)
   );
+
+  app.post(
+    "/logout",
+    controllers.AuthController.getLogout.bind(controllers.AuthController)
+  );
   app.get("/ping", async (req) => {
     return new Response("pong", { status: 200 });
   });

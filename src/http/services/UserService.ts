@@ -11,8 +11,12 @@ const users: User[] = [];
 const tokenStore = new Map<string, User>();
 
 export class UserService {
-  constructor() {
-    console.log("booted user service");
+  constructor() {}
+
+  public clearToken(token: string | undefined): void {
+    if (token) {
+      tokenStore.delete(token);
+    }
   }
 
   public getUserByToken(token: string): User | undefined {

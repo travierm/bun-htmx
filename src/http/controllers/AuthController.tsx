@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import { setCookie } from "hono/cookie";
+import { getCookie, setCookie } from "hono/cookie";
 import { z } from "zod";
 
 import { renderComponent } from "../../framework/renderer/renderComponent";
@@ -12,6 +12,19 @@ export class AuthController {
 
   public getLogin(c: Context) {
     return renderComponent(<Login />);
+  }
+
+  async getLogout(c: Context) {
+    // clear token in storage
+    const token = getCookie(c, "token");
+    this.userService.clearToken(token);
+
+    // clear token in cookie
+    setCookie(c, "token", "", {
+      expires: new Date(),
+    });
+
+    return c.redirect("/login");
   }
 
   async postLogin(c: Context) {

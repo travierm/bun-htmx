@@ -7,6 +7,10 @@ export function Navbar() {
         <a href="/orders">Orders</a>
         <a href="/customers">Customers</a>
       </div>
+
+      <div className="flex ml-auto">
+        <a href="/logout">Logout</a>
+      </div>
     </nav>
   );
 }

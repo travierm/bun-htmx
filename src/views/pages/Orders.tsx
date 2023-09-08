@@ -1,8 +1,13 @@
 import * as React from "react";
 
+import { ComponentProps } from "../../framework/globalProps";
 import { Layout } from "../components/Layout";
 
-export function Orders(props: { message: string; request?: Request }) {
+type Props = ComponentProps & {
+  message: string;
+};
+
+export function Orders(props: Props) {
   return (
     <Layout>
       <h1>Orders</h1>
