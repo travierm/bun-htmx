@@ -5,6 +5,6 @@ import { Orders } from "../../views/pages/Orders";
 
 export class OrderController {
   public getOrders(c: Context) {
-    return renderComponent(<Orders message="hello from hono" context={c} />);
+    return renderComponent(c, <Orders message="hello from hono" context={c} />);
   }
 }

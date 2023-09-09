@@ -11,7 +11,7 @@ export class AuthController {
   userService: UserService = serviceContainer.resolve(UserService);
 
   public getLogin(c: Context) {
-    return renderComponent(<Login />);
+    return renderComponent(c, <Login />);
   }
 
   async getLogout(c: Context) {
@@ -33,20 +33,20 @@ export class AuthController {
       password: z.string(),
     });
 
-    const body = verifier.parse(c.req.parseBody());
+    const body = verifier.parse(await c.req.parseBody());
 
     try {
       const user = await this.userService.loginUser(body.email, body.password);
 
       if (!user) {
-        return renderComponent(<Login errors={{ login: "failed" }} />);
+        return renderComponent(c, <Login errors={{ login: "failed" }} />);
       }
 
       setCookie(c, "token", user.token, {
         expires: user.tokenExpiration,
       });
     } catch (e) {
-      return renderComponent(<Login errors={{ login: "failed" }} />);
+      return renderComponent(c, <Login errors={{ login: "failed" }} />);
     }
 
     return c.redirect("/customers");

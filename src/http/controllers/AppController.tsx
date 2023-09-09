@@ -5,6 +5,6 @@ import { Navbar } from "../../views/pages/Navbar";
 
 export class AppController {
   public async getIndex(c: Context) {
-    return renderComponent(<Navbar />);
+    return renderComponent(c, <Navbar />);
   }
 }

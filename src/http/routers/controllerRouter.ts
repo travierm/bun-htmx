@@ -44,7 +44,7 @@ export function initControllerRoutes(app: Hono) {
     controllers.AuthController.postLogin.bind(controllers.AuthController)
   );
 
-  app.post(
+  app.get(
     "/logout",
     controllers.AuthController.getLogout.bind(controllers.AuthController)
   );

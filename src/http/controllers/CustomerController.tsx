@@ -5,6 +5,6 @@ import { Customers } from "../../views/pages/Customers";
 
 export class CustomerController {
   public getCustomers(c: Context) {
-    return renderComponent(<Customers />);
+    return renderComponent(c, <Customers />);
   }
 }
