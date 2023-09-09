@@ -1,22 +1,34 @@
+import { ErrorBag } from "../../framework/globalProps";
 import { BaseButton } from "../components/BaseButton";
 import { FormInput } from "../components/form/Input";
 import { Layout } from "../components/Layout";
 
-export function Login() {
+type Props = {
+  errors?: ErrorBag;
+};
+export function Login(props: Props) {
   return (
     <Layout>
       <div className="flex items-center justify-center">
-        <form>
+        <form method="POST">
           <h1 className="text-2xl font-bold mb-4">Login</h1>
 
+          {props.errors && (
+            <div>
+              <h1>Bad Login</h1>
+            </div>
+          )}
+
           <FormInput
-            type="email"
-            label="Username"
-            placeholder="Username"
+            name="email"
+            type="text"
+            label="Email"
+            placeholder="Email"
             required
           />
 
           <FormInput
+            name="password"
             type="password"
             label="Password"
             placeholder="Password"
