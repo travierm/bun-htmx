@@ -19,8 +19,9 @@ export function initControllerRoutes(app: Hono) {
   app.use("*", async (c, next) => {
     await next();
 
-    // currently need to manually exclude urls that should not be parsed
-    if (c.req.path.indexOf("/public") === 0) {
+    // disabled routes
+    const disabledRoutes = ["/public", "/ping"];
+    if (disabledRoutes.includes(c.req.path)) {
       return;
     }
 
