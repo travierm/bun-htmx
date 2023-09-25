@@ -49,6 +49,6 @@ export class AuthController {
       return renderComponent(c, <Login errors={{ login: "failed" }} />);
     }
 
-    return c.redirect("/customers");
+    return c.redirect("/transaction/create");
   }
 }

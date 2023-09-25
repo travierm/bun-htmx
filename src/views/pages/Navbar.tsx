@@ -17,8 +17,9 @@ export function Navbar(props: Props) {
 
       {isAuthed && (
         <div className="flex gap-2 mr-2">
-          <a href="/orders">Orders</a>
-          <a href="/customers">Customers</a>
+          <a href="/transaction/create">New</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/profile">Profile</a>
         </div>
       )}
 
