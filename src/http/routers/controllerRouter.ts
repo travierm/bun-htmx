@@ -3,14 +3,12 @@ import { Hono } from "hono";
 import { htmlParser } from "../../framework/renderer/parseHtml";
 import { AppController } from "../controllers/AppController";
 import { AuthController } from "../controllers/AuthController";
-import { CustomerController } from "../controllers/CustomerController";
-import { OrderController } from "../controllers/OrderController";
+import { TransactionController } from "../controllers/TransactionController";
 
 const controllers = {
   AppController: new AppController(),
   AuthController: new AuthController(),
-  CustomerController: new CustomerController(),
-  OrderController: new OrderController(),
+  TransactionController: new TransactionController(),
 };
 
 await htmlParser.parse("./public/index.html");
@@ -20,7 +18,7 @@ export function initControllerRoutes(app: Hono) {
     await next();
 
     // disabled routes
-    const disabledRoutes = ["/public", "/ping"];
+    const disabledRoutes = ["/public", "/ping", "/public/app.css"];
     if (disabledRoutes.includes(c.req.path)) {
       return;
     }
@@ -37,8 +35,7 @@ export function initControllerRoutes(app: Hono) {
   });
 
   app.get("/", controllers.AppController.getIndex);
-  app.get("/customers", controllers.CustomerController.getCustomers);
-  app.get("/orders", controllers.OrderController.getOrders);
+  app.get("/transaction/create", controllers.TransactionController.getCreate);
   app.get("/login", controllers.AuthController.getLogin);
   app.post(
     "/login",
