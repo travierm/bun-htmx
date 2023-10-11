@@ -26,6 +26,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "declaration": true
   },
   "exclude": ["node_modules"]

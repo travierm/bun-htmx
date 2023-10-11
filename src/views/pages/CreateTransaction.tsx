@@ -16,25 +16,27 @@ for (var i = 0; i <= 10000; i++) {
 export function CreateTransaction(props: {}) {
   return (
     <Layout>
-      <div className="flex items-center justify-center">
-        <h1>Create Transaction</h1>
-        <form>
-          <FormInput
-            name="description"
-            type="text"
-            label="Desc"
-            placeholder="Desc"
-            required
-          />
+      <div class="flex gap-2 justify-center">
+        <div class="w-80">
+          <h1 class="text-xl">Create Transaction</h1>
+          <form class="mt-4">
+            <FormInput
+              name="description"
+              type="text"
+              label="Desc"
+              placeholder="Desc"
+              required
+            />
 
-          <FormInput
-            name="desciption"
-            type="text"
-            label="Email"
-            placeholder="Email"
-            required
-          />
-        </form>
+            <FormInput
+              name="desciption"
+              type="text"
+              label="Email"
+              placeholder="Email"
+              required
+            />
+          </form>
+        </div>
       </div>
     </Layout>
   );
